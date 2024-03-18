@@ -1,0 +1,149 @@
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-10 offset-md-1">
+      <div class="text-center bg-success mb-4">
+        <p class="text-black">User SignUp Form</p>
+      </div>
+      <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
+        <div class="form-group">
+          <label for="userName">UserName</label>
+          <input type="text" formControlName="userName" class="form-control">
+          <span class="text-danger" *ngIf="f['userName'].touched && f['userName'].hasError('required')">
+            Username is required field.
+          </span>
+          <ng-container *ngIf="f['userName'].dirty">
+            <span class="text-danger" *ngIf="f['userName'].hasError('pattern')">
+              Please Enter Valid Username.
+            </span>
+            <span class="text-danger" *ngIf="f['userName'].hasError('minlength')">
+              Username length should be
+              {{getUserName.errors?.['minlength'].requiredLength}}
+              and actual length is
+              {{getUserName.errors?.['minlength'].actualLength}}
+            </span>
+            <span class="text-danger" *ngIf="f['userName'].hasError('maxlength')">
+              the maxlength of Username should be
+              {{getUserName.errors?.['maxlength'].requiredLength}}
+              and actual length is
+              {{getUserName.errors?.['maxlength'].actualLength}}
+            </span>
+            <span class="text-danger" *ngIf="f['userName'].hasError('noSpaceErr')">
+              {{getUserName.errors?.['noSpaceErr']}}
+            </span>
+          </ng-container>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" formControlName="email" class="form-control">
+          <span class="text-danger" *ngIf="f['email'].touched && f['email'].hasError('required')">
+            Email is a required field.
+          </span>
+          <span class="text-danger" *ngIf="f['email'].dirty && f['email'].hasError('pattern')">
+            Plz enter valid Email.
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="empId">Emp. ID</label>
+          <input type="text" id="empId" formControlName="empId" class="form-control">
+          <span class="text-danger" *ngIf="f['empId'].touched && f['empId'].hasError('required')">
+            Emp Id is required field.
+          </span>
+          <span class="text-danger" *ngIf="f['empId'].dirty && f['empId'].hasError('empError')">
+            {{f['empId'].errors?.['empError']}}
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="female">
+            <input type="radio" formControlName="gender" name="gender" value="female" id="female">Female
+          </label>
+          <label for="male">
+            <input type="radio" formControlName="gender" name="gender" value="male" id="male">Male
+          </label>
+          <label for="other">
+            <input type="radio" formControlName="gender" name="gender" value="other" id="other">Others
+          </label>
+        </div>
+        <div formArrayName="skills">
+          <div class="row" *ngFor="let skill of skillsFormArray.controls; index as i ">
+            <div class="col-md-10 mb-4">
+              <input type="text" class="form-control" [formControlName]="i">
+            </div>
+            <div class="col-md-2" *ngIf="i > 0">
+              <button (click)="onSkillRemove(i)" class="btn btn-outline-danger">Remove</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button class="btn btn-primary mb-4" [disabled]="skillsFormArray.length >= 5" (click)="onSkillAdd()"
+                type="button">add skills</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6" formGroupName="currentAdress">
+            <p class="alert alert-info">Current Adress</p>
+            <div class="form-group">
+              <select class="form-control" formControlName="country">
+                <option value="">Select Country</option>
+                <option [value]="contry.Country" *ngFor="let contry of CountryInfo">
+                  {{contry.Country}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="state" formControlName="state" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="city" formControlName="city" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="zipCode" formControlName="zipCode" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="isAddressSame">
+                <input type="checkbox" formControlName="isAddressSame">
+                Permenent address is same as Current
+              </label>
+            </div>
+          </div>
+          <div class="col-md-6" formGroupName="permenentAdress">
+            <p class="alert alert-info">Permenent Adress</p>
+            <div class="form-group">
+              <select class="form-control" formControlName="country">
+                <option value="">Select Country</option>
+                <option [value]="contry.Country" *ngFor="let contry of CountryInfo">
+                  {{contry.Country}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="state" formControlName="state" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="city" formControlName="city" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="zipCode" formControlName="zipCode" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" formControlName="password" id="password" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="comfirmPassword">Confirm Password</label>
+              <input type="password" id="comfirmPassword" formControlName="comfirmPassword" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <div class="text-right">
+          <button class="btn btn-primary" type="submit">sign up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
